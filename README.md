@@ -1,7 +1,7 @@
 # terraform-nifcloud-cert-manager
 
 Terraform module for managing certificates on NIFCLOUD.
-Specifically, create or renew certificates. Then upload it to NIFCLOUD.
+Specifically, acme provider is used to create or renew certificates and upload them to NIFCLOUD.
 
 ## Usage
 
@@ -9,7 +9,11 @@ There are examples included in the examples folder but simple usage is as follow
 
 ```hcl
 locals {
+  nifcloud_access_key = "YOUR_ACCESS_KEY"
+  nifcloud_secret_key = "YOUR_SECRET_KEY"
+
   acme_email_address = "XXXXXX@YYYY.com"
+  # see: https://letsencrypt.org/docs/acme-protocol-updates/#acme-v2-rfc-8555
   server_url         = "https://acme-staging-v02.api.letsencrypt.org/directory"
 
   certificates = {
@@ -22,9 +26,6 @@ locals {
       subject_alternative_names = ["geho.com", "*.geho.com"]
     }
   }
-
-  nifcloud_access_key = "YOUR_ACCESS_KEY"
-  nifcloud_secret_key = "YOUR_SECRET_KEY"
 }
 
 provider "nifcloud" {
@@ -62,9 +63,3 @@ Before this module can be used on a project, you must ensure that the following 
     - You can set environment variable `NIFCLOUD_ACCESS_KEY_ID` and `NIFCLOUD_SECRET_ACCESS_KEY`
 3. Create an SSH key to log in to the server on the NIFCLOUD control panel.
     - The ssh key is used as instance_key_name when creating a cluster
-
-### Software Dependencies
-
-- [Terraform](https://www.terraform.io/downloads.html) 1.5.6
-- [Terraform Provider for Nifcloud](https://github.com/nifcloud/terraform-provider-nifcloud) 1.10.1
-- [Terraform ACME Provider](https://github.com/vancluever/terraform-provider-acme) 1.10.1
