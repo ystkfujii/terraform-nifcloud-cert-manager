@@ -13,8 +13,12 @@ terraform {
 }
 
 locals {
+  nifcloud_access_key = "YOUR_ACCESS_KEY"
+  nifcloud_secret_key = "YOUR_SECRET_KEY"
+
   acme_email_address = "XXXXXX@YYYY.com"
-  server_url         = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  # see: https://letsencrypt.org/docs/acme-protocol-updates/#acme-v2-rfc-8555
+  server_url = "https://acme-staging-v02.api.letsencrypt.org/directory"
 
   certificates = {
     "hoge" = {
@@ -26,9 +30,6 @@ locals {
       subject_alternative_names = ["geho.com", "*.geho.com"]
     }
   }
-
-  nifcloud_access_key = "YOUR_ACCESS_KEY"
-  nifcloud_secret_key = "YOUR_SECRET_KEY"
 }
 
 provider "nifcloud" {

@@ -32,4 +32,8 @@ resource "nifcloud_ssl_certificate" "this" {
   key         = acme_certificate.this[each.key].private_key_pem
   ca          = acme_certificate.this[each.key].issuer_pem
   description = each.key
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
